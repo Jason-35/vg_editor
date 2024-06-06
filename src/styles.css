@@ -1,0 +1,42 @@
+:root {
+  --menu-color: aqua;
+  --hover-color: green;
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+body, ul, li {
+  padding: 0px;
+  margin: 0px;
+}
+
+#menu-bar {
+  /* position: fixed; */
+  top: 0;
+  background-color: var(--menu-color);
+  display: flex;
+  list-style: none;
+  padding-left: 10px;
+  width: 100vw;
+}
+
+#menu-bar li {
+  padding: 4px 12px 4px 12px;
+}
+
+#menu-bar li:hover {
+  background-color: var(--hover-color);
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+#text-content {
+  height: calc(100vh - 48px);
+  overflow: scroll;
+  margin-bottom: 10px;
+  padding: 10px;
+  outline: 0px solid transparent;
+}
