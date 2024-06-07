@@ -13,7 +13,6 @@ body, ul, li {
 }
 
 #menu-bar {
-  /* position: fixed; */
   top: 0;
   background-color: var(--menu-color);
   display: flex;
@@ -40,3 +39,48 @@ body, ul, li {
   padding: 10px;
   outline: 0px solid transparent;
 }
+
+.option {
+  position: absolute;
+  display: grid;
+  grid-template-columns: auto;
+  background-color: beige;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.option div {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+}
+
+.option div:hover {
+  background-color: aqua;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.file {
+  width: 248px;
+}
+
+.edit {
+  width: 248px;
+  left: 68px;
+}
+
+.view {
+  width: 248px;
+  left: 124px;
+}
+
+.setting {
+  width: 248px;
+  left: 186px;
+}
+

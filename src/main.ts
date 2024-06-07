@@ -1,12 +1,6 @@
 import { invoke } from "@tauri-apps/api/tauri";
+import { registerMenuHoverEvent } from "./lib/menuBarLib";
 
-let textContentEl: HTMLDivElement | null;
-
-let testButtonEl: HTMLButtonElement | null;
-
-
-testButtonEl = document.querySelector("#test")
-testButtonEl?.addEventListener("click", () => {
-  console.log("clicker")
-})
-
+let menuBarEl: HTMLUListElement | null
+menuBarEl = document.querySelector("#menu-bar")
+registerMenuHoverEvent(menuBarEl!)

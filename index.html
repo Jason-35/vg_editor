@@ -9,16 +9,102 @@
   </head>
 
   <body>
-    <nav id="menu-bar">
-      <li>File</li>
-      <li>Edit</li>
-      <li>View</li>
-      <li>Search</li>
-      <li>Setting</li>
+    <nav id="menu-bar"  tabindex="-1">
+      <li id="file">File</li>
+      <li id="edit">Edit</li>
+      <li id="view">View</li>
+      <li id="setting">Setting</li>
     </nav>
-    <button id="test">test</button>
+
+    <div class="hide option file">
+      <div>
+        <span>New File</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Open File</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Save</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Save As</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Close</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Quit</span>
+        <span>Ctrl + N</span>
+      </div>
+    </div>
+
+    <div class="hide option edit">
+      <div>
+        <span>Undo</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Redo</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Cut</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Copy</span>
+      </div>
+      <div>
+        <span>Paste</span>
+        <span>Ctrl + N</span>
+      </div>
+    </div>
+
+    <div class="hide option view">
+      <div>
+        <span>Increase Text</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Decrease Text</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Highlight</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Search</span>
+      </div>
+      <div>
+        <span>Line Space</span>
+        <span>Ctrl + N</span>
+      </div>
+    </div>
+    <div class="hide option setting">
+      <div>
+        <span>Font Family</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Theme</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Keybinds</span>
+        <span>Ctrl + N</span>
+      </div>
+      <div>
+        <span>Font Size</span>
+      </div>
+    </div>
+
     <div id="text-content" contenteditable="true">
-      adsasd
     </div>
   </body>
 </html>
