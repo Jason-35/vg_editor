@@ -32,12 +32,33 @@ body, ul, li {
   border-radius: 6px;
 }
 
+#file-tabs {
+  /* display: flex; */
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 16%;
+  /* gap: 0; */
+  list-style: none;
+  border-bottom: 1px solid black;
+  height: 32px;
+  overflow: hidden;
+}
+
+#file-tabs li {
+  /* border: solid 3px green; */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #text-content {
-  height: calc(100vh - 48px);
+  height: calc(100vh - 72px);
   overflow: scroll;
   margin-bottom: 10px;
   padding: 10px;
   outline: 0px solid transparent;
+  /* border: solid 3px black; */
 }
 
 .option {
@@ -66,6 +87,7 @@ body, ul, li {
 }
 
 .file {
+  left: 16px;
   width: 248px;
 }
 

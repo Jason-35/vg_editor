@@ -4,12 +4,32 @@
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+    return format!("Hello, {}! You've been greeted from Rust!", name)
+}
+
+#[tauri::command]
+fn save_file() {
+
+}
+
+#[tauri::command]
+fn open_file() {
+
+}
+
+#[tauri::command]
+fn save_as_file() {
+
 }
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            save_file,
+            save_as_file,
+            open_file
+            ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
