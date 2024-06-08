@@ -1,6 +1,8 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::fs;
+
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -13,8 +15,12 @@ fn save_file() {
 }
 
 #[tauri::command]
-fn open_file() {
-
+fn open_file(path: String) -> (String, String) {
+    if let Ok(content) = fs::read_to_string(&path) {
+        return (content, path);
+    } else {
+        return ("".to_string(), "".to_string());
+    }
 }
 
 #[tauri::command]

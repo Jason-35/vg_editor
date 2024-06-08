@@ -1,4 +1,6 @@
-let currentDisplayOption: HTMLDivElement | undefined;
+export class DisplayTracker {
+    public static currentDisplayOption: HTMLDivElement | undefined;
+}
 
 /**
  * registers event listeners to items in the navigation menu
@@ -14,7 +16,6 @@ export function registerMenuHoverEvent(menuBarEl: HTMLUListElement) {
         let optionDisplay = document.getElementsByClassName(elementId)[0];
         
         if (element) {
-            console.log(element)
             element.addEventListener("click", () => {
                 setDisplayOption(optionDisplay as HTMLDivElement);
             });
@@ -30,29 +31,29 @@ export function registerMenuHoverEvent(menuBarEl: HTMLUListElement) {
  */
 export function setDisplayOption(optionDisplay: HTMLDivElement, displayNone?: boolean){
     if (displayNone) {
-        if (currentDisplayOption) {
-            currentDisplayOption.classList.add("hide");
+        if (DisplayTracker.currentDisplayOption) {
+            DisplayTracker.currentDisplayOption.classList.add("hide");
         }
-        currentDisplayOption = undefined;
+        DisplayTracker.currentDisplayOption = undefined;
         return;
     }
 
-    if (currentDisplayOption === optionDisplay) {
-        currentDisplayOption.classList.add("hide");
-        currentDisplayOption = undefined;
+    if (DisplayTracker.currentDisplayOption === optionDisplay) {
+        DisplayTracker.currentDisplayOption.classList.add("hide");
+        DisplayTracker.currentDisplayOption = undefined;
         return;
     }
 
-    if (currentDisplayOption === undefined) {
-        currentDisplayOption = optionDisplay;
-        currentDisplayOption.classList.remove("hide");
+    if (DisplayTracker.currentDisplayOption === undefined) {
+        DisplayTracker.currentDisplayOption = optionDisplay;
+        DisplayTracker.currentDisplayOption.classList.remove("hide");
         return;
     }
 
-    if (currentDisplayOption !== undefined) {
-        currentDisplayOption.classList.add("hide");
-        currentDisplayOption = optionDisplay;
-        currentDisplayOption.classList.remove("hide");
+    if (DisplayTracker.currentDisplayOption !== undefined) {
+        DisplayTracker.currentDisplayOption.classList.add("hide");
+        DisplayTracker.currentDisplayOption = optionDisplay;
+        DisplayTracker.currentDisplayOption.classList.remove("hide");
         return;
     }
 }
