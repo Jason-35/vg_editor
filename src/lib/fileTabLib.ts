@@ -1,14 +1,17 @@
-let currentTab: HTMLLIElement | undefined;
+export class DisplayTab {
+    public static currentTab: HTMLLIElement | undefined;
+    public static fileContent: {[key: string] : any} = {};
+}
 
-function registerTabMenuHoverEvent(tabEl: HTMLLIElement) {
+export function registerTabMenuHoverEvent(tabEl: HTMLLIElement) {
     tabEl.addEventListener(("mouseover"), () => {
-        if (tabEl !== currentTab) {
+        if (tabEl !== DisplayTab.currentTab) {
             tabEl.style.backgroundColor = "aqua"
         }
     })
     
     tabEl.addEventListener(("mouseout"), () => {
-        if (tabEl !== currentTab) {
+        if (tabEl !== DisplayTab.currentTab) {
             tabEl.style.backgroundColor = "white"
         }
     })
@@ -42,16 +45,20 @@ export function registerTabScrollEvent(fileTabEl: HTMLUListElement) {
 }
 
 export function setCurrentTab(tabEl: HTMLLIElement) {
+    const textContent: HTMLDivElement = document.querySelector("#text-content")!;
 
-    if (currentTab === undefined) {
-        currentTab = tabEl;
-        currentTab.style.background = "yellow";
+    if (DisplayTab.currentTab === undefined) {
+        DisplayTab.currentTab = tabEl;
+        DisplayTab.currentTab.style.background = "yellow";
+        textContent.innerText = DisplayTab.fileContent[tabEl.id];
         return
     }
 
-    if (currentTab !== undefined) {
-        currentTab.style.background = "white";
-        currentTab = tabEl;
-        currentTab.style.background = "yellow";
+    if (DisplayTab.currentTab !== undefined) {
+        DisplayTab.currentTab.style.background = "white";
+        DisplayTab.currentTab = tabEl;
+        DisplayTab.currentTab.style.background = "yellow";
+        textContent.innerText = DisplayTab.fileContent[tabEl.id];
+        return
     }
 }

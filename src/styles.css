@@ -45,7 +45,7 @@ body, ul, li {
 }
 
 #file-tabs li {
-  /* border: solid 3px green; */
+  border: solid 3px green;
   height: 100%;
   display: flex;
   align-items: center;

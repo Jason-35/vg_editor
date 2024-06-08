@@ -1,6 +1,7 @@
 import { registerMenuHoverEvent } from "./lib/menuBarLib";
 import { registerTabScrollEvent } from "./lib/fileTabLib";
 import { openFile, registerFileOptionEvent } from "./lib/options/fileOption";
+import { registerTextClickedEvent } from "./lib/textLib";
 
 let textContentEl: HTMLDivElement | null;
 let fileOption: HTMLDivElement | null;
@@ -9,16 +10,19 @@ let fileTabEl: HTMLUListElement | null;
 
 fileOption = document.querySelector(".file")!
 fileTabEl = document.querySelector("#file-tabs")!;
+console.log(fileTabEl, "???");
 menuBarEl = document.querySelector("#menu-bar")!;
+textContentEl = document.querySelector("#text-content")!;
 
 registerFileOptionEvent(fileOption);
 registerMenuHoverEvent(menuBarEl);
 registerTabScrollEvent(fileTabEl);
+registerTextClickedEvent(textContentEl);
+
 
 window.addEventListener("keydown", (event: KeyboardEvent) => {
-    textContentEl = document.querySelector("#text-content")!;
     if (event.ctrlKey && event.key.toLowerCase() === "s") {
-        console.log("save to file", textContentEl.innerText)
+        console.log("save to file", textContentEl?.innerText)
         // call to rust
     }
 

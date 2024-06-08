@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { open } from '@tauri-apps/api/dialog';
 import { DisplayTracker } from "../menuBarLib";
+import { DisplayTab, registerTabMenuHoverEvent, setCurrentTab } from "../fileTabLib";
 
 let fileOptionFunction: {[key: string] : any} = {
     "new_file": newFile,
@@ -56,9 +57,15 @@ export async function openFile() {
         textContent.innerText = content;
         let tabTitle = document.createElement("li");
         const title = getDocTitle(path);
-        tabTitle.innerText = title
+        tabTitle.id = title;
+        tabTitle.innerText = title;
+        registerTabMenuHoverEvent(tabTitle);
+        tabTitle.addEventListener(("click"), () => {
+            setCurrentTab(tabTitle);
+        })
+        DisplayTab.fileContent[title] = content;
+        setCurrentTab(tabTitle)
         fileTab.appendChild(tabTitle);
-
     }
 
 }
