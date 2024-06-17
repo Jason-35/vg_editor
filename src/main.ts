@@ -24,6 +24,7 @@ registerTextContentEvent(textContentEl);
 window.addEventListener("keydown", (event: KeyboardEvent) => {
     event.stopPropagation();
     let title = DisplayTab.currentTab!.id
+    let manage = contentManagement.contentMap[title]
     if (event.ctrlKey && event.key.toLowerCase() === "s") {
         console.log("save to file", textContentEl?.innerText)
         // call to rust
@@ -34,13 +35,23 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "z" ) {
-        event.stopPropagation();
-        let manage = contentManagement.contentMap[title]
         if(!manage.undoIsEmpty()) {
             let undoContent = manage.undo()!
             manage.insertRedo()
+            console.log(manage.redoStack)
             manage.setCurrentContent(undoContent);
             textContentEl!.innerText = undoContent;
+        }
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "y") {
+        console.log(manage.redoStack)
+        if(!manage.redoIsEmpty()) {
+            let redoContent = manage.redo()!
+            console.log(redoContent)
+            manage.insertUndo()
+            manage.setCurrentContent(redoContent)
+            textContentEl!.innerText = redoContent;
         }
     }
 
