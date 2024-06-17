@@ -1,7 +1,9 @@
-import { registerMenuHoverEvent } from "./lib/menuBarLib";
+import { DisplayTracker, registerMenuHoverEvent } from "./lib/menuBarLib";
 import { registerTabScrollEvent } from "./lib/fileTabLib";
 import { openFile, registerFileOptionEvent } from "./lib/options/fileOption";
-import { registerTextClickedEvent } from "./lib/textLib";
+import { registerTextContentEvent } from "./lib/textLib";
+import { contentManagement } from "./lib/textLib";
+import { DisplayTab } from "./lib/fileTabLib";
 
 let textContentEl: HTMLDivElement | null;
 let fileOption: HTMLDivElement | null;
@@ -17,10 +19,11 @@ textContentEl = document.querySelector("#text-content")!;
 registerFileOptionEvent(fileOption);
 registerMenuHoverEvent(menuBarEl);
 registerTabScrollEvent(fileTabEl);
-registerTextClickedEvent(textContentEl);
-
+registerTextContentEvent(textContentEl);
 
 window.addEventListener("keydown", (event: KeyboardEvent) => {
+    event.stopPropagation();
+    let title = DisplayTab.currentTab!.id
     if (event.ctrlKey && event.key.toLowerCase() === "s") {
         console.log("save to file", textContentEl?.innerText)
         // call to rust
@@ -29,20 +32,27 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.ctrlKey && event.key.toLowerCase() === "o" ) {
         openFile()
     }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "z" ) {
+        event.stopPropagation();
+        let manage = contentManagement.contentMap[title]
+        if(!manage.undoIsEmpty()) {
+            let undoContent = manage.undo()!
+            manage.insertRedo()
+            manage.setCurrentContent(undoContent);
+            textContentEl!.innerText = undoContent;
+        }
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "p" ) {
+        console.log("redo")
+    }
 })
 
-// const openFileContent = async() => {
-//     const selected = await open({
-//         multiple: true,
-//         defaultPath: '/home/jason/Desktop',
-//       }).then(e => {
-//         console.log(e)
-//       });
-// }
-
-// window.addEventListener("keydown", (e) => {
-//     if (e.key === "q") {
-//         // console.log("q")
-//         openFileContent()
-//     } 
-// })
+document.addEventListener("click", (event) => {
+    if (!(menuBarEl?.contains(event.target as Node) && menuBarEl !== event.target)) {
+        if (DisplayTracker.currentDisplayOption)
+        DisplayTracker.currentDisplayOption.classList.add("hide");
+        DisplayTracker.currentDisplayOption = undefined;
+    }
+})

@@ -2,6 +2,8 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { open } from '@tauri-apps/api/dialog';
 import { DisplayTracker } from "../menuBarLib";
 import { DisplayTab, registerTabMenuHoverEvent, setCurrentTab } from "../fileTabLib";
+import { TextContent } from "../objects/textContent";
+import { contentManagement } from "../textLib";
 
 let fileOptionFunction: {[key: string] : any} = {
     "new_file": newFile,
@@ -65,6 +67,8 @@ export async function openFile() {
         })
         DisplayTab.fileContent[title] = content;
         setCurrentTab(tabTitle)
+        let contentObject = new TextContent(title, content);
+        contentManagement.contentMap[title] = contentObject;
         fileTab.appendChild(tabTitle);
     }
 
