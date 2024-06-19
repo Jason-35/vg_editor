@@ -4,6 +4,7 @@ import { DisplayTracker } from "../menuBarLib";
 import { DisplayTab, registerTabMenuHoverEvent, setCurrentTab } from "../fileTabLib";
 import { TextContent } from "../objects/textContent";
 import { contentManagement } from "../textLib";
+import { appWindow } from '@tauri-apps/api/window';
 
 let fileOptionFunction: {[key: string] : any} = {
     "new_file": newFile,
@@ -95,10 +96,23 @@ export async function saveAsFile() {
     await invoke("save_as_file", { path: filePath, content: content})
 }
 
-function closeFile(): void {
-    console.log("close file")
+export function closeFile(): void {
+    let title = DisplayTab.currentTab!.id;
+    let currentTab = document.getElementById(title);
+    let content: HTMLDivElement = document.querySelector("#text-content")!
+
+    let tabParent = currentTab!.parentNode!.children!; 
+    currentTab!.parentNode!.removeChild(currentTab as Element)
+    delete DisplayTab.fileContent[title];
+    
+    if(tabParent.length > 0) {
+        DisplayTab.currentTab = (tabParent[0] as HTMLLIElement);
+        content.innerText = DisplayTab.fileContent[tabParent[0].id]
+        setCurrentTab(tabParent[0] as HTMLLIElement);
+    }
 }
 
-function quit(): void {
+async function quit() {
+    await appWindow.close();
     console.log("quit")
 }

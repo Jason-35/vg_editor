@@ -1,6 +1,6 @@
 import { DisplayTracker, registerMenuHoverEvent } from "./lib/menuBarLib";
 import { registerTabScrollEvent } from "./lib/fileTabLib";
-import { openFile, registerFileOptionEvent, newFile, saveFile, saveAsFile } from "./lib/options/fileOption";
+import { openFile, registerFileOptionEvent, newFile, saveFile, saveAsFile, closeFile } from "./lib/options/fileOption";
 import { registerTextContentEvent } from "./lib/textLib";
 import { contentManagement } from "./lib/textLib";
 import { DisplayTab } from "./lib/fileTabLib";
@@ -23,8 +23,7 @@ registerTextContentEvent(textContentEl);
 
 window.addEventListener("keydown", (event: KeyboardEvent) => {
     event.stopPropagation();
-    let title = DisplayTab.currentTab!.id
-    let manage = contentManagement.contentMap[title]
+    
     if (event.ctrlKey && event.key.toLowerCase() === "s") {
         saveFile()
     }
@@ -34,6 +33,8 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "z" ) {
+        let title = DisplayTab.currentTab!.id
+        let manage = contentManagement.contentMap[title]
         if(!manage.undoIsEmpty()) {
             let undoContent = manage.undo()!
             manage.insertRedo()
@@ -44,7 +45,8 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "y") {
-        console.log(manage.redoStack)
+        let title = DisplayTab.currentTab!.id
+        let manage = contentManagement.contentMap[title]
         if(!manage.redoIsEmpty()) {
             let redoContent = manage.redo()!
             console.log(redoContent)
@@ -63,7 +65,7 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "w") {
-        console.log("close current tab!")
+        closeFile()
     }
 })
 

@@ -36,6 +36,9 @@
         "removeFile": true,
         "renameFile": true,
         "exists": true
+      },
+      "window": {
+        "close": true
       }
     },
     "windows": [
