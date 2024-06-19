@@ -44,7 +44,7 @@ function getDocTitle(path: string): string {
     return title;
 }
 
-function newFile() {
+export function newFile() {
     console.log("new file")
 }
 
@@ -68,14 +68,24 @@ export async function openFile() {
         DisplayTab.fileContent[title] = content;
         setCurrentTab(tabTitle)
         let contentObject = new TextContent(title, content);
+        contentObject.setPath(path);
+        console.log(path);
         contentManagement.contentMap[title] = contentObject;
         fileTab.appendChild(tabTitle);
     }
 
 }
 
-function saveFile(): void {
-    console.log("save file")
+
+export async function saveFile() {
+    let title = DisplayTab.currentTab!.id;
+    let path = contentManagement.contentMap[title].getPath();
+    let content = contentManagement.contentMap[title].getCurrentContent()
+    await invoke("save_file", { path: path, content: content})
+    
+    // console.log(DisplayTab.currentTab)
+    // console.log(contentManagement)
+    // console.log("save file")
 }
 
 function saveAsFile(): void {

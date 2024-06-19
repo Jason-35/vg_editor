@@ -1,6 +1,6 @@
 import { DisplayTracker, registerMenuHoverEvent } from "./lib/menuBarLib";
 import { registerTabScrollEvent } from "./lib/fileTabLib";
-import { openFile, registerFileOptionEvent } from "./lib/options/fileOption";
+import { openFile, registerFileOptionEvent, newFile, saveFile } from "./lib/options/fileOption";
 import { registerTextContentEvent } from "./lib/textLib";
 import { contentManagement } from "./lib/textLib";
 import { DisplayTab } from "./lib/fileTabLib";
@@ -26,8 +26,7 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
     let title = DisplayTab.currentTab!.id
     let manage = contentManagement.contentMap[title]
     if (event.ctrlKey && event.key.toLowerCase() === "s") {
-        console.log("save to file", textContentEl?.innerText)
-        // call to rust
+        saveFile()
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "o" ) {
@@ -55,8 +54,8 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
         }
     }
 
-    if (event.ctrlKey && event.key.toLowerCase() === "p" ) {
-        console.log("redo")
+    if (event.ctrlKey && event.key.toLowerCase() === "n" ) {
+        newFile();
     }
 })
 

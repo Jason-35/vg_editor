@@ -3,6 +3,7 @@ export class TextContent {
     content: string;
     undoStack: string[];
     redoStack: string[];
+    path: string;
 
 
     constructor(title: string, content: string) {
@@ -10,6 +11,15 @@ export class TextContent {
         this.content = content
         this.undoStack = [];
         this.redoStack = []
+        this.path = ""
+    }
+
+    setPath(path: string) {
+        this.path = path;
+    }
+
+    getPath() {
+        return this.path;
     }
 
     undoIsEmpty() {

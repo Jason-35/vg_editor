@@ -10,8 +10,8 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn save_file() {
-
+fn save_file(path: String, content: String) {
+    fs::write(path, content).expect("Unable to write file");
 }
 
 #[tauri::command]
