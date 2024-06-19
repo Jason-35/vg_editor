@@ -1,6 +1,6 @@
 import { DisplayTracker, registerMenuHoverEvent } from "./lib/menuBarLib";
 import { registerTabScrollEvent } from "./lib/fileTabLib";
-import { openFile, registerFileOptionEvent, newFile, saveFile } from "./lib/options/fileOption";
+import { openFile, registerFileOptionEvent, newFile, saveFile, saveAsFile } from "./lib/options/fileOption";
 import { registerTextContentEvent } from "./lib/textLib";
 import { contentManagement } from "./lib/textLib";
 import { DisplayTab } from "./lib/fileTabLib";
@@ -56,6 +56,14 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
 
     if (event.ctrlKey && event.key.toLowerCase() === "n" ) {
         newFile();
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "s" && event.shiftKey) {
+        saveAsFile()
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "w") {
+        console.log("close current tab!")
     }
 })
 

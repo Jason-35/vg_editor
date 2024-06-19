@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { open } from '@tauri-apps/api/dialog';
+import { open, save } from '@tauri-apps/api/dialog';
 import { DisplayTracker } from "../menuBarLib";
 import { DisplayTab, registerTabMenuHoverEvent, setCurrentTab } from "../fileTabLib";
 import { TextContent } from "../objects/textContent";
@@ -82,14 +82,17 @@ export async function saveFile() {
     let path = contentManagement.contentMap[title].getPath();
     let content = contentManagement.contentMap[title].getCurrentContent()
     await invoke("save_file", { path: path, content: content})
-    
-    // console.log(DisplayTab.currentTab)
-    // console.log(contentManagement)
-    // console.log("save file")
 }
 
-function saveAsFile(): void {
-    console.log("save as file")
+export async function saveAsFile() {
+    let title = DisplayTab.currentTab!.id;
+    let path = contentManagement.contentMap[title].getPath();
+    let content = contentManagement.contentMap[title].getCurrentContent()
+    const filePath = await save({
+        defaultPath: path
+    })
+    contentManagement.contentMap[title].setPath(filePath!);
+    await invoke("save_as_file", { path: filePath, content: content})
 }
 
 function closeFile(): void {
