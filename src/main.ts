@@ -7,12 +7,18 @@ import { DisplayTab } from "./lib/fileTabLib";
 
 let textContentEl: HTMLDivElement | null;
 let fileOption: HTMLDivElement | null;
+let editOption: HTMLDivElement | null;
+let viewOption: HTMLDivElement | null;
+let settingOption: HTMLDivElement | null;
 let menuBarEl: HTMLUListElement | null;
 let fileTabEl: HTMLUListElement | null;
 
 fileOption = document.querySelector(".file")!
+editOption = document.querySelector(".edit")!
+viewOption = document.querySelector(".view")!
+settingOption = document.querySelector(".setting")!
+
 fileTabEl = document.querySelector("#file-tabs")!;
-console.log(fileTabEl, "???");
 menuBarEl = document.querySelector("#menu-bar")!;
 textContentEl = document.querySelector("#text-content")!;
 

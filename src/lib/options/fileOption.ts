@@ -6,6 +6,8 @@ import { TextContent } from "../objects/textContent";
 import { contentManagement } from "../textLib";
 import { appWindow } from '@tauri-apps/api/window';
 
+let newFileTracker = 1;
+
 let fileOptionFunction: {[key: string] : any} = {
     "new_file": newFile,
     "open_file": openFile,
@@ -16,7 +18,6 @@ let fileOptionFunction: {[key: string] : any} = {
 }
 
 export function registerFileOptionEvent(fileOption: HTMLDivElement): void {
-    console.log(fileOption.children)
     const listOfFileOption = fileOption.children
 
     for (let i = 0; i < listOfFileOption.length; i++) {
@@ -46,7 +47,21 @@ function getDocTitle(path: string): string {
 }
 
 export function newFile() {
-    console.log("new file")
+    const fileTab: HTMLLIElement = document.querySelector("#file-tabs")!;
+    let title = "New Document " + newFileTracker.toString()  
+    let tabTitle = document.createElement("li");
+    tabTitle.id = title;
+    tabTitle.innerText = title;
+    registerTabMenuHoverEvent(tabTitle);
+        tabTitle.addEventListener(("click"), () => {
+        setCurrentTab(tabTitle);
+    })
+    DisplayTab.fileContent[title] = "";
+    setCurrentTab(tabTitle);
+    let contentObject = new TextContent(title, "");
+    contentManagement.contentMap[title] = contentObject;
+    fileTab.appendChild(tabTitle);
+    newFileTracker += 1
 }
 
 export async function openFile() {
@@ -70,7 +85,6 @@ export async function openFile() {
         setCurrentTab(tabTitle)
         let contentObject = new TextContent(title, content);
         contentObject.setPath(path);
-        console.log(path);
         contentManagement.contentMap[title] = contentObject;
         fileTab.appendChild(tabTitle);
     }
@@ -109,6 +123,8 @@ export function closeFile(): void {
         DisplayTab.currentTab = (tabParent[0] as HTMLLIElement);
         content.innerText = DisplayTab.fileContent[tabParent[0].id]
         setCurrentTab(tabParent[0] as HTMLLIElement);
+    }else {
+        content.innerText = "No File Opened! \n Ctrl + N for new file \n Ctrl + O to open a file"
     }
 }
 

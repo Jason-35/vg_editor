@@ -20,8 +20,8 @@ export function registerTextContentEvent(textContentEl: HTMLDivElement) {
             let manager = contentManagement.contentMap[DisplayTab.currentTab!.id]
             manager.insertUndo()
             manager.setCurrentContent(textContentEl.innerText);
+            DisplayTab.fileContent[DisplayTab.currentTab!.id] = textContentEl.innerText;
             contentManagement.contentMap[DisplayTab.currentTab!.id] = manager;
-            // console.log(contentManagement.contentMap[DisplayTab.currentTab!.id]);
         }, 500);
     })
 }
