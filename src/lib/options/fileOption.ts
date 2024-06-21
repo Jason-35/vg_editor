@@ -1,12 +1,13 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { open, save } from '@tauri-apps/api/dialog';
 import { DisplayTracker } from "../menuBarLib";
-import { DisplayTab, registerTabMenuHoverEvent, setCurrentTab } from "../fileTabLib";
+import { DisplayTab, changeTabName, registerTabMenuHoverEvent, setCurrentTab } from "../fileTabLib";
 import { TextContent } from "../objects/textContent";
 import { contentManagement } from "../textLib";
 import { appWindow } from '@tauri-apps/api/window';
 
 let newFileTracker = 1;
+
 
 let fileOptionFunction: {[key: string] : any} = {
     "new_file": newFile,
@@ -96,7 +97,12 @@ export async function saveFile() {
     let title = DisplayTab.currentTab!.id;
     let path = contentManagement.contentMap[title].getPath();
     let content = contentManagement.contentMap[title].getCurrentContent()
-    await invoke("save_file", { path: path, content: content})
+    console.log(path)
+    if(!path) {
+        saveAsFile();
+    } else {
+        await invoke("save_file", { path: path, content: content})
+    }
 }
 
 export async function saveAsFile() {
@@ -106,7 +112,15 @@ export async function saveAsFile() {
     const filePath = await save({
         defaultPath: path
     })
+
+    let fileName = filePath?.split("/").pop()!
     contentManagement.contentMap[title].setPath(filePath!);
+    contentManagement.contentMap[title].setTitle(fileName);
+    changeTabName(fileName)
+    contentManagement.contentMap[fileName] = contentManagement.contentMap[title]
+    DisplayTab.fileContent[fileName] = content
+    delete contentManagement.contentMap[title] 
+    delete DisplayTab.fileContent[title]
     await invoke("save_as_file", { path: filePath, content: content})
 }
 

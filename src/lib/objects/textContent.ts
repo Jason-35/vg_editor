@@ -14,6 +14,10 @@ export class TextContent {
         this.path = ""
     }
 
+    setTitle(title: string) {
+        this.title = title;
+    }
+
     setPath(path: string) {
         this.path = path;
     }
