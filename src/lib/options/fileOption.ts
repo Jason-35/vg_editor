@@ -112,6 +112,10 @@ export async function saveAsFile() {
     const filePath = await save({
         defaultPath: path
     })
+    
+    if(!filePath) {
+        return
+    }
 
     let fileName = filePath?.split("/").pop()!
     contentManagement.contentMap[title].setPath(filePath!);

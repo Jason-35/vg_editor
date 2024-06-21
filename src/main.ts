@@ -27,6 +27,7 @@ registerMenuHoverEvent(menuBarEl);
 registerTabScrollEvent(fileTabEl);
 registerTextContentEvent(textContentEl);
 
+newFile()
 window.addEventListener("keydown", (event: KeyboardEvent) => {
     event.stopPropagation();
     
