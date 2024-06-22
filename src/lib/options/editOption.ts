@@ -101,6 +101,7 @@ function cut() {
 
 export async function copy() {
     await writeText(copyText)    
+    highlighted = false
 }
 
 async function paste() {
