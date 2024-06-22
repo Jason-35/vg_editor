@@ -98,8 +98,8 @@ export async function copy() {
 async function paste() {
     const clipboardText = await readText();
     let content = textContentEl.innerText
-    console.log("paste ", clipboardText, copyText)
-    
+    let editContent = content.replace(copyText, clipboardText!)
+    textContentEl.innerText = editContent 
 }
 
 
