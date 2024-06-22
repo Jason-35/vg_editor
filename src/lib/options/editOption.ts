@@ -112,7 +112,7 @@ async function paste() {
         let content = textContentEl.innerText
         let editContent = content.replace(copyText, clipboardText!)
         textContentEl.innerText = editContent 
-        return
+        // return
     } else {
         let content = textContentEl.innerText
         let firstContent = content.slice(0, caretIndex)
@@ -121,6 +121,12 @@ async function paste() {
         let joinContent = firstContent + pasteContent + secondContent
         textContentEl.innerText = joinContent
     }
+
+    let manager = contentManagement.contentMap[DisplayTab.currentTab!.id]
+    manager.insertUndo()
+    manager.setCurrentContent(textContentEl.innerText);
+    DisplayTab.fileContent[DisplayTab.currentTab!.id] = textContentEl.innerText;
+    contentManagement.contentMap[DisplayTab.currentTab!.id] = manager;
 }
 
 
