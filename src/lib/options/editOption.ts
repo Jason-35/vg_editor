@@ -10,6 +10,7 @@ let endNode;
 let startOffset: number
 let endOffset: number
 let copyText: string
+let caretIndex: number
 
 const editOptionFunction: {[key: string] : any} = {
     "undo": undo,
@@ -19,7 +20,7 @@ const editOptionFunction: {[key: string] : any} = {
     "paste": paste,
 }
 
-document.addEventListener("mouseup", () => {
+textContentEl.addEventListener("mouseup", () => {
     if(document.getSelection()?.anchorOffset !== document.getSelection()?.focusOffset){
         highlighted = true
         startOffset = document.getSelection()!.anchorOffset
@@ -27,14 +28,16 @@ document.addEventListener("mouseup", () => {
         startNode = document.getSelection()!.anchorNode
         endNode = document.getSelection()!.focusNode
         copyText = document.getSelection()!.toString()
-
+    } else if (!highlighted && document.activeElement === textContentEl && document.getSelection()?.anchorOffset === document.getSelection()?.focusOffset) {
+        highlighted = false
+        caretIndex = document.getSelection()!.anchorOffset
     }
+    
+
 })
 
 textContentEl.addEventListener("focusout", () => {
     if (highlighted) {
-        highlighted = false
-        console.log("HIGHLIGHTED!")
         let range = document.createRange();
         range.setStart(startNode!, startOffset);
         range.setEnd(endNode!, endOffset);
@@ -46,12 +49,12 @@ textContentEl.addEventListener("focusout", () => {
 
 export function registerEditOptionEvent(editOption: HTMLDivElement): void {
     const listOfEditOption = editOption.children
-    console.log(listOfEditOption)
     for (let i = 0; i < listOfEditOption.length; i++) {
         const optionId = listOfEditOption[i].id;
         const optionEl = document.querySelector(`#${optionId}`);
         if(optionEl) {
-            optionEl?.addEventListener("click", () => {
+            optionEl?.addEventListener("click", (event) => {
+                event.preventDefault()
                 editOptionFunction[optionId]()
                 if(DisplayTracker.currentDisplayOption) {
                     DisplayTracker.currentDisplayOption.classList.add("hide");
@@ -88,7 +91,12 @@ export function redo() {
 }
 
 function cut() {
-    console.log("cut")
+    // TODO: Add to stack
+    copy()
+    highlighted = false
+    let content = textContentEl.innerText
+    let editContent = content.replace(copyText, "")
+    textContentEl.innerText = editContent 
 }
 
 export async function copy() {
@@ -96,10 +104,22 @@ export async function copy() {
 }
 
 async function paste() {
+    // TODO: Add to stack
     const clipboardText = await readText();
-    let content = textContentEl.innerText
-    let editContent = content.replace(copyText, clipboardText!)
-    textContentEl.innerText = editContent 
+    if (highlighted) {
+        highlighted = false
+        let content = textContentEl.innerText
+        let editContent = content.replace(copyText, clipboardText!)
+        textContentEl.innerText = editContent 
+        return
+    } else {
+        let content = textContentEl.innerText
+        let firstContent = content.slice(0, caretIndex)
+        let pasteContent = clipboardText
+        let secondContent = content.slice(caretIndex) 
+        let joinContent = firstContent + pasteContent + secondContent
+        textContentEl.innerText = joinContent
+    }
 }
 
 
