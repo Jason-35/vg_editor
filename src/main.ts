@@ -2,8 +2,7 @@ import { DisplayTracker, registerMenuHoverEvent } from "./lib/menuBarLib";
 import { registerTabScrollEvent } from "./lib/fileTabLib";
 import { openFile, registerFileOptionEvent, newFile, saveFile, saveAsFile, closeFile } from "./lib/options/fileOption";
 import { registerTextContentEvent } from "./lib/textLib";
-import { contentManagement } from "./lib/textLib";
-import { DisplayTab } from "./lib/fileTabLib";
+import { copy, redo, registerEditOptionEvent, undo } from "./lib/options/editOption";
 
 let textContentEl: HTMLDivElement | null;
 let fileOption: HTMLDivElement | null;
@@ -23,6 +22,7 @@ menuBarEl = document.querySelector("#menu-bar")!;
 textContentEl = document.querySelector("#text-content")!;
 
 registerFileOptionEvent(fileOption);
+registerEditOptionEvent(editOption);
 registerMenuHoverEvent(menuBarEl);
 registerTabScrollEvent(fileTabEl);
 registerTextContentEvent(textContentEl);
@@ -40,27 +40,11 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "z" ) {
-        let title = DisplayTab.currentTab!.id
-        let manage = contentManagement.contentMap[title]
-        if(!manage.undoIsEmpty()) {
-            let undoContent = manage.undo()!
-            manage.insertRedo()
-            console.log(manage.redoStack)
-            manage.setCurrentContent(undoContent);
-            textContentEl!.innerText = undoContent;
-        }
+        undo()
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "y") {
-        let title = DisplayTab.currentTab!.id
-        let manage = contentManagement.contentMap[title]
-        if(!manage.redoIsEmpty()) {
-            let redoContent = manage.redo()!
-            console.log(redoContent)
-            manage.insertUndo()
-            manage.setCurrentContent(redoContent)
-            textContentEl!.innerText = redoContent;
-        }
+        redo()
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "n" ) {
@@ -73,6 +57,10 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
 
     if (event.ctrlKey && event.key.toLowerCase() === "w") {
         closeFile()
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "f") {
+        copy()
     }
 })
 

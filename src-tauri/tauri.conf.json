@@ -39,6 +39,11 @@
       },
       "window": {
         "close": true
+      },
+      "clipboard": {
+        "all": true,
+        "writeText": true,
+        "readText": true
       }
     },
     "windows": [
