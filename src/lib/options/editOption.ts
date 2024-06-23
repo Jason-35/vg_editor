@@ -4,12 +4,19 @@ import { contentManagement } from "../textLib"
 import { readText, writeText } from '@tauri-apps/api/clipboard';
 
 let textContentEl: HTMLDivElement = document.querySelector("#text-content")!;
-let highlighted = false
 let startNode;
 let endNode;
-let startOffset: number
-let endOffset: number
-let copyText: string
+// export let startOffset: number
+// export let endOffset: number
+// export let copyText: string
+
+export class Highlight {
+     public static highlighted = false
+     public static startOffset: number
+     public static endOffset: number
+     public static copyText: string
+}
+
 let caretIndex: number
 
 const editOptionFunction: {[key: string] : any} = {
@@ -21,15 +28,16 @@ const editOptionFunction: {[key: string] : any} = {
 }
 
 textContentEl.addEventListener("mouseup", () => {
+    console.log(document.getSelection()?.toString(), document.getSelection())
     if(document.getSelection()?.anchorOffset !== document.getSelection()?.focusOffset){
-        highlighted = true
-        startOffset = document.getSelection()!.anchorOffset
-        endOffset = document.getSelection()!.focusOffset
+        Highlight.highlighted = true
+        Highlight.startOffset = document.getSelection()!.anchorOffset
+        Highlight.endOffset = document.getSelection()!.focusOffset
         startNode = document.getSelection()!.anchorNode
         endNode = document.getSelection()!.focusNode
-        copyText = document.getSelection()!.toString()
-    } else if (!highlighted && document.activeElement === textContentEl && document.getSelection()?.anchorOffset === document.getSelection()?.focusOffset) {
-        highlighted = false
+        Highlight.copyText = document.getSelection()!.toString()
+    } else if (!Highlight.highlighted && document.activeElement === textContentEl && document.getSelection()?.anchorOffset === document.getSelection()?.focusOffset) {
+        Highlight.highlighted = false
         caretIndex = document.getSelection()!.anchorOffset
     }
     
@@ -37,10 +45,10 @@ textContentEl.addEventListener("mouseup", () => {
 })
 
 textContentEl.addEventListener("focusout", () => {
-    if (highlighted) {
+    if (Highlight.highlighted) {
         let range = document.createRange();
-        range.setStart(startNode!, startOffset);
-        range.setEnd(endNode!, endOffset);
+        range.setStart(startNode!, Highlight.startOffset);
+        range.setEnd(endNode!, Highlight.endOffset);
         let sel = window.getSelection()!;
         sel.removeAllRanges();
         sel.addRange(range);
@@ -91,28 +99,30 @@ export function redo() {
 }
 
 function cut() {
-    // TODO: Add to stack
     copy()
-    highlighted = false
+    Highlight.highlighted = false
     let content = textContentEl.innerText
-    let editContent = content.replace(copyText, "")
+    let editContent = content.replace(Highlight.copyText, "")
     textContentEl.innerText = editContent 
+    let manager = contentManagement.contentMap[DisplayTab.currentTab!.id]
+    manager.insertUndo()
+    manager.setCurrentContent(textContentEl.innerText);
+    DisplayTab.fileContent[DisplayTab.currentTab!.id] = textContentEl.innerText;
+    contentManagement.contentMap[DisplayTab.currentTab!.id] = manager;
 }
 
 export async function copy() {
-    await writeText(copyText)    
-    highlighted = false
+    await writeText(Highlight.copyText)    
+    Highlight.highlighted = false
 }
 
 async function paste() {
-    // TODO: Add to stack
     const clipboardText = await readText();
-    if (highlighted) {
-        highlighted = false
+    if (Highlight.highlighted) {
+        Highlight.highlighted = false
         let content = textContentEl.innerText
-        let editContent = content.replace(copyText, clipboardText!)
+        let editContent = content.replace(Highlight.copyText, clipboardText!)
         textContentEl.innerText = editContent 
-        // return
     } else {
         let content = textContentEl.innerText
         let firstContent = content.slice(0, caretIndex)

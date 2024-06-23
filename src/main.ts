@@ -32,7 +32,7 @@ registerTextContentEvent(textContentEl);
 newFile()
 window.addEventListener("keydown", (event: KeyboardEvent) => {
     event.stopPropagation();
-    console.log(event.key)
+    // console.log(event.key)
     
     if (event.ctrlKey && event.key.toLowerCase() === "s") {
         saveFile()

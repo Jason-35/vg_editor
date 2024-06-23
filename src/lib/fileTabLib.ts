@@ -46,7 +46,6 @@ export function registerTabScrollEvent(fileTabEl: HTMLUListElement) {
 
 export function setCurrentTab(tabEl: HTMLLIElement) {
     const textContent: HTMLDivElement = document.querySelector("#text-content")!;
-    console.log(tabEl)
     if (DisplayTab.currentTab === undefined) {
         DisplayTab.currentTab = tabEl;
         DisplayTab.currentTab.style.background = "yellow";

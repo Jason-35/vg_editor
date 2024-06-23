@@ -64,8 +64,8 @@ textarea {
   margin-bottom: 10px;
   padding: 10px;
   outline: 0px solid transparent;
-  white-space: pre;
-  /* border: solid 3px black; */
+  white-space: normal;
+  width: 100vw;
 }
 
 .option {
@@ -111,5 +111,9 @@ textarea {
 .setting {
   width: 248px;
   left: 186px;
+}
+
+.highlight {
+  background-color: aqua;
 }
 
