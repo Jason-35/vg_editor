@@ -48,6 +48,10 @@ function getDocTitle(path: string): string {
 }
 
 export function newFile() {
+    const textContent: HTMLDivElement = document.querySelector("#text-content")!;
+    textContent.className = ""
+    let noTab: HTMLDivElement = document.querySelector("#no-tab")!
+    noTab.className = ""
     const fileTab: HTMLLIElement = document.querySelector("#file-tabs")!;
     let title = "New Document " + newFileTracker.toString()  
     let tabTitle = document.createElement("li");
@@ -66,8 +70,12 @@ export function newFile() {
 }
 
 export async function openFile() {
+    
     const selected = await open();
     const textContent: HTMLDivElement = document.querySelector("#text-content")!;
+    textContent.className = ""
+    let noTab: HTMLDivElement = document.querySelector("#no-tab")!
+    noTab.className = ""
     const fileTab: HTMLLIElement = document.querySelector("#file-tabs")!;
     if (selected) {
         let result: string[] = await invoke("open_file", { path: selected})
@@ -142,11 +150,13 @@ export function closeFile(): void {
         content.innerText = DisplayTab.fileContent[tabParent[0].id]
         setCurrentTab(tabParent[0] as HTMLLIElement);
     }else {
+        content.className = "hide"
         content.innerText = "No File Opened! \n Ctrl + N for new file \n Ctrl + O to open a file"
+        let noTab: HTMLDivElement = document.querySelector("#no-tab")!
+        noTab.className = ""
     }
 }
 
 async function quit() {
     await appWindow.close();
-    console.log("quit")
 }

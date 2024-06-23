@@ -6,13 +6,15 @@ export class DisplayTab {
 export function registerTabMenuHoverEvent(tabEl: HTMLLIElement) {
     tabEl.addEventListener(("mouseover"), () => {
         if (tabEl !== DisplayTab.currentTab) {
-            tabEl.style.backgroundColor = "aqua"
+            // tabEl.style.backgroundColor = "aqua"
+            tabEl.style.color = "#ffffff"
         }
     })
     
     tabEl.addEventListener(("mouseout"), () => {
         if (tabEl !== DisplayTab.currentTab) {
-            tabEl.style.backgroundColor = "white"
+            tabEl.style.backgroundColor = "hsla(257, 11%, 12%, 0.5)"
+            tabEl.style.color = "grey"
         }
     })
 }
@@ -48,15 +50,19 @@ export function setCurrentTab(tabEl: HTMLLIElement) {
     const textContent: HTMLDivElement = document.querySelector("#text-content")!;
     if (DisplayTab.currentTab === undefined) {
         DisplayTab.currentTab = tabEl;
-        DisplayTab.currentTab.style.background = "yellow";
+        DisplayTab.currentTab.style.background = "hsla(257, 11%, 12%, 0.8)";
+        DisplayTab.currentTab.style.color = "white";
         textContent.innerText = DisplayTab.fileContent[tabEl.id];
         return
     }
 
     if (DisplayTab.currentTab !== undefined) {
-        DisplayTab.currentTab.style.background = "white";
+        console.log("click")
+        DisplayTab.currentTab.style.background = "hsla(257, 11%, 12%, 0.5)";
+        DisplayTab.currentTab.style.color = "grey"
         DisplayTab.currentTab = tabEl;
-        DisplayTab.currentTab.style.background = "yellow";
+        DisplayTab.currentTab.style.background = "hsla(257, 11%, 12%, 0.8)";
+        DisplayTab.currentTab.style.color = "#ffffff"
         textContent.innerText = DisplayTab.fileContent[tabEl.id];
         return
     }

@@ -1,6 +1,6 @@
 :root {
-  --menu-color: aqua;
-  --hover-color: green;
+  --menu-color: hsla(257, 11%, 12%, 0.9);
+  --hover-color: #1d1b22;
 }
 
 *, *::after, *::before {
@@ -10,6 +10,7 @@
 body, ul, li {
   padding: 0px;
   margin: 0px;
+  background-color: #332e4b;
 }
 
 textarea {
@@ -26,6 +27,8 @@ textarea {
 }
 
 #menu-bar li {
+  color: grey;
+  background-color: hsla(257, 11%, 12%, 0.9);
   padding: 4px 12px 4px 12px;
 }
 
@@ -37,11 +40,10 @@ textarea {
 }
 
 #file-tabs {
-  /* display: flex; */
+  background-color: hsla(257, 11%, 12%, 0.8);
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 16%;
-  /* gap: 0; */
   list-style: none;
   border-bottom: 1px solid black;
   height: 32px;
@@ -49,13 +51,17 @@ textarea {
 }
 
 #file-tabs li {
-  border: solid 3px green;
+  background-color: hsla(257, 11%, 12%, 0.8);
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
   overflow: hidden;
+}
+
+#file-tabs li:hover {
+  cursor: pointer;
 }
 
 #text-content {
@@ -66,13 +72,18 @@ textarea {
   outline: 0px solid transparent;
   white-space: normal;
   width: 100vw;
+  background-color: #332e4b;
+  color: #ffffff;
+  caret-color: white;
+  caret-shape: block;
 }
 
 .option {
   position: absolute;
   display: grid;
   grid-template-columns: auto;
-  background-color: beige;
+  background-color:  hsl(260, 8%, 28%);
+  color: white;
   padding: 4px;
   border-radius: 8px;
 }
@@ -117,3 +128,12 @@ textarea {
   background-color: aqua;
 }
 
+#no-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 90vh;
+  font-size: 24px;
+  line-height: 2;
+}
