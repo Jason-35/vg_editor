@@ -3,6 +3,7 @@ import { registerTabScrollEvent } from "./lib/fileTabLib";
 import { openFile, registerFileOptionEvent, newFile, saveFile, saveAsFile, closeFile } from "./lib/options/fileOption";
 import { registerTextContentEvent } from "./lib/textLib";
 import { copy, redo, registerEditOptionEvent, undo } from "./lib/options/editOption";
+import { decrease_text, increase_text, registerViewOptionEvent } from "./lib/options/viewOption";
 
 let textContentEl: HTMLDivElement | null;
 let fileOption: HTMLDivElement | null;
@@ -23,6 +24,7 @@ textContentEl = document.querySelector("#text-content")!;
 
 registerFileOptionEvent(fileOption);
 registerEditOptionEvent(editOption);
+registerViewOptionEvent(viewOption);
 registerMenuHoverEvent(menuBarEl);
 registerTabScrollEvent(fileTabEl);
 registerTextContentEvent(textContentEl);
@@ -30,6 +32,7 @@ registerTextContentEvent(textContentEl);
 newFile()
 window.addEventListener("keydown", (event: KeyboardEvent) => {
     event.stopPropagation();
+    console.log(event.key)
     
     if (event.ctrlKey && event.key.toLowerCase() === "s") {
         saveFile()
@@ -61,6 +64,14 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
 
     if (event.ctrlKey && event.key.toLowerCase() === "f") {
         copy()
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "=") {
+        increase_text()
+    }
+    
+    if (event.ctrlKey && event.key.toLowerCase() === "-") {
+        decrease_text()
     }
 })
 
